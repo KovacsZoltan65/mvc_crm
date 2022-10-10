@@ -1,0 +1,32 @@
+{
+    "users": "Felhasználók",
+    "name":"Név",
+    "functions":"Műveletek",
+    "contact": "Kapcsolat",
+    "profile": "Profil",
+    "currencies": "Pénznemek",
+    
+    "login": "Belépés",
+    "register": "Regisztráció",
+    "create account": "Fiók létrehozása",
+    
+    "first_name": "Keresztnév",
+    "last_name": "Vezetéknév",
+    "email": "Email",
+    "your email": "Email címed",
+    "password": "Jelszó",
+    "confirm_password": "Jelszó megerősítése",
+    "status": "Státusz",
+    
+    "companies": "Cégek",
+    "company": "Cég",
+    "company_new": "Új cég",
+    "company_edit": "Cég szerkesztése",
+    "company_delete": "Cég törlése",
+    
+    "add new": "Új elem",
+    "save": "Mentés",
+    "create": "Létrehozás",
+    "delete": "Törlés",
+    "cancel":"Mégsem"
+}
