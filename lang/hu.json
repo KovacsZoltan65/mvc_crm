@@ -4,7 +4,12 @@
     "functions":"Műveletek",
     "contact": "Kapcsolat",
     "profile": "Profil",
+    
     "currencies": "Pénznemek",
+    "currency": "Pénznem",
+    
+    "countries": "Országok",
+    "country": "Ország",
     
     "login": "Belépés",
     "register": "Regisztráció",
@@ -24,9 +29,18 @@
     "company_edit": "Cég szerkesztése",
     "company_delete": "Cég törlése",
     
+    "humans":"Dolgozók",
+    "human":"Dolgozó",
+    
     "add new": "Új elem",
+    "edit": "Szerkesztés",
     "save": "Mentés",
     "create": "Létrehozás",
     "delete": "Törlés",
-    "cancel":"Mégsem"
+    "cancel":"Mégsem",
+    "choose": "Válassz",
+    
+    "inactive":"Inaktív",
+    "active":"Aktív",
+    "deleted":"Törölt"
 }

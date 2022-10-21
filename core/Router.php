@@ -37,8 +37,8 @@ class Router
 
     /**
      * GET kérés regisztrálása
-     * @param type $path        Ha a kérés erről a címről jön,
-     * @param type $callback    akkor ez fusson le.
+     * @param string $path        Ha a kérés erről a címről jön,
+     * @param array $callback    akkor ez fusson le.
      */
 	public function get($path, $callback)
 	{
@@ -47,8 +47,8 @@ class Router
     
     /**
      * POST kérés regisztrálása
-     * @param type $path     Ha a kérés erről a címről jön,
-     * @param type $callback akkor ez fusson le.
+     * @param string $path     Ha a kérés erről a címről jön,
+     * @param array $callback akkor ez fusson le.
      */
     public function post($path, $callback)
 	{

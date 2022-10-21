@@ -22,11 +22,13 @@ class Button
         TYPE_SUBMIT = 'submit',
         TYPE_RESET = 'reset',
         TYPE_MODAL = 'modal';
-    public $type = self::TYPE_BUTTON;
-    
+
+    public string $type = self::TYPE_BUTTON;
+
     public array $attributes = [];
+
     /**
-     * 
+     *
      * @param array $attributes
      *              [
      *                  'id'      => '',
@@ -41,59 +43,60 @@ class Button
         $this->type = self::TYPE_BUTTON;
         $this->attributes = $attributes;
     }
-    
-    public function button()
+
+    public function button(): Button
     {
         $this->type = self::TYPE_BUTTON;
         return $this;
     }
-    
-    public function submit()
+
+    public function submit(): Button
     {
         $this->type = self::TYPE_SUBMIT;
         return $this;
     }
-    
-    public function reset()
+
+    public function reset(): Button
     {
         $this->type = self::TYPE_RESET;
         return $this;
     }
-    
-    public function modal()
+
+    public function modal(): Button
     {
         $this->type = self::TYPE_MODAL;
         return $this;
     }
-    
+
     public function __toString()
     {
-        $name = ( !isset($this->attributes['name']) || $this->attributes['name'] == '' ) 
-            ? $this->attributes['id'] 
+        $name = (!isset($this->attributes['name']) || $this->attributes['name'] == '')
+            ? $this->attributes['id']
             : $this->attributes['name'];
-        $onclick = ( !isset($this->attribute['onclick']) || $this->attribute['onclick'] == '' ) 
-            ? '' 
-            : $this->attribute['onclick'];
-        
-        $title = (isset($this->attributes['title'])) ? 
-            $this->attributes['title'] : 
+        $onclick = (!isset($this->attribute['onclick']) || $this->attribute['onclick'] == '')
+            ? ''
+            : 'onclick="' . $this->attribute['onclick'] . '"';
+
+        $title = (isset($this->attributes['title'])) ?
+            $this->attributes['title'] :
             '<i class="' . $this->attributes['icon'] . '"></i>';
-        
-        $style = ( isset($this->attributes['style']) ) ? ' style="' . $this->attributes['style'] . '"' : '';
-        
-        $data_dismiss = ( isset($this->attributes['data-dismiss']) ) ? ' data-dismiss="' . $this->attributes['data-dismiss'] . '"' : '';
-        
-        $data_id = ( isset($this->attributes['data-id']) ) ? $this->attributes['data-id'] : 0;
-        
+
+        $style = (isset($this->attributes['style'])) ? ' style="' . $this->attributes['style'] . '"' : '';
+
+        $data_dismiss = (isset($this->attributes['data-dismiss'])) ? ' data-dismiss="' . $this->attributes['data-dismiss'] . '"' : '';
+
+        $data_id = (isset($this->attributes['data-id'])) ? $this->attributes['data-id'] : 0;
+
         $button = '';
         switch ($this->type) {
             case self::TYPE_MODAL:
-                $data_whatever = ( isset($this->attributes['data-whatever']) ) ? $this->attributes['data-whatever'] : '';
+                $data_whatever = (isset($this->attributes['data-whatever'])) ? $this->attributes['data-whatever'] : '';
                 $button = '<button id="' . $this->attributes['id'] . '" 
                                    name="' . $name . '" 
                                    type="' . $this->type . '" 
                                    class="' . $this->attributes['class'] . '" 
                                    ' . $style . '
+                                   ' . $onclick . '
                                    data-toggle="' . $this->attributes['data-toggle'] . '" 
                                    data-target="' . $this->attributes['data-target'] . '" 
                                    data-whatever="' . $data_whatever . '"
@@ -109,15 +112,16 @@ class Button
                                    name="' . $name . '" 
                                    class="' . $this->attributes['class'] . '" 
                                    ' . $style . '
-                                   onclick="' . $onclick . '"' 
+                                   ' . $onclick . '
+                                   data-id="' . $data_id . '"'
                     . $data_dismiss . '>' . $title;
                 $button .= '</button>';
                 break;
             default:
                 break;
         }
-        
+
         return $button;
-        
+
     }
 }

@@ -28,22 +28,25 @@ class CompanyController extends Controller
     {
         $this->registerMiddleware(new AuthMiddleware(['companies']));
     }
-    
+
     /**
      * Cégek index oldalának betöltése
      * @param Request $request
      * @param Response $response
-     * @return type
      */
-    public function companies(Request $request, Response $response)
+    public function getCompanies()
     {
         $companies = Company::getAll();
-        
+
         $this->setLayout('main');
-        return $this->render('companies/companies', ['companies' => $companies]);
+        return $this->render('companies/companies', [
+            'companies' => $companies,
+        ]);
     }
-    
-    public function getCompany(Request $request, Response $response)
+    /*
+     * @return string
+    */
+    public function getCompany(Request $request, Response $response) : string
     {
         $company = new Company();
         if( isset($request->getRouteParams()['id']) )
@@ -51,40 +54,46 @@ class CompanyController extends Controller
             $id = (int)$request->getRouteParams()['id'];
             $company = Company::findOne(['id' => $id]);
         }
-        
+
         return json_encode($company);
     }
-    
+
     public function company_new(Request $request, Response $response)
     {
         $company = new Company();
+        
         if( $request->isPost() )
         {
             $company->loadData($request->getBody());
-            
+
             if( $company->validate() && $company->save() )
             {
                 Application::$app->session->setFlash('success', 'Thanks for add new company');
                 Application::$app->response->redirect('/companies');
             }
         }
+
+        $currencies = (new CurrencyController())->getCurrenciesToSelect();
+        $countries = (new CountryController())->getCountriesToSelect();
         
         $this->setLayout('main');
         return $this->render('companies/company_new', [
-            'model' => $company
+            'model' => $company,
+            'currencies' => $currencies,
+            'countries' => $countries,
         ]);
     }
-    
+
     public function company_edit(Request $request, Response $response)
     {
         $companyModel = new Company();
-        
+
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
             $company = Company::findOne(['id' => $id]);
         }
-        
+
         if( $request->isPost() )
         {
             $companyModel->loadData($request->getBody());
@@ -95,31 +104,55 @@ class CompanyController extends Controller
                 Application::$app->response->redirect('/companies');
             }
         }
+
+        $currencies = (new CurrencyController())->getCurrenciesToSelect();
+        $countries = (new CountryController())->getCountriesToSelect();
         
         $this->setLayout('main');
         return $this->render('companies/company_edit', [
             'model' => $company,
+            'currencies' => $currencies,
+            'countries' => $countries,
         ]);
     }
-    
+
     public function company_delete(Request $request, Response $response)
     {
-        $companyModel = new Company();
-        
-        $id = (int)$request->getRouteParams()['id'];
-        $company = Company::findOne(['id' => $id]);
-        
+        $company = new Company();
+
+        if( isset($request->getBody()['delete_id']) )
+        {
+            $id = $request->getBody()['delete_id'];
+            $company = Company::findOne(['id' => $id]);
+        }
+
         if( $request->isPost() )
         {
-            //
+            $company->delete();
         }
-        
-        $this->setLayout('main');
-        return $this->render('companies/company_delete', [
-            'model' => $company
-        ]);
+
+        /*
+        echo '<pre>';
+        print_r($request);
+        print_r($response);
+        print_r($request->getBody());
+        //print_r($request->getRouteParams());
+        echo '</pre>';
+
+        $company = new Company();
+
+        $company->loadData($request->getBody());
+        */
+
+        /*
+        $id = (int)$request->getRouteParams()['id'];
+        $company = Company::findOne(['id' => $id]);
+        echo '<pre>';
+        var_dump($company);
+        echo '</pre>';
+        */
     }
-    
+
     /**
      * Cég adatainak megjelenítése
      * @param Request $request
@@ -129,7 +162,7 @@ class CompanyController extends Controller
     {
         //
     }
-    
+
     /**
      * Új cég adatainak felvitele
      * @param Request $request
@@ -139,7 +172,7 @@ class CompanyController extends Controller
     {
         //
     }
-    
+
     /**
      * Új cég adatinak mentése
      * @param Request $request
@@ -149,7 +182,7 @@ class CompanyController extends Controller
     {
         //
     }
-    
+
     /**
      * Cég adatainak megjelenítése szerkesztésre
      * @param Request $request
@@ -159,7 +192,7 @@ class CompanyController extends Controller
     {
         //
     }
-    
+
     /**
      * Cég szerkesztett adatainak mentése
      * @param Request $request
@@ -169,11 +202,11 @@ class CompanyController extends Controller
     {
         //
     }
-    
+
     /**
      * Cég adatainak törlése
-     * Soft Delete esetén: 
-     *  status = 0; 
+     * Soft Delete esetén:
+     *  status = 0;
      *  deleted_at = UTC_TIMESTAMP();
      * @param Request $request
      * @param Response $response
@@ -182,4 +215,4 @@ class CompanyController extends Controller
     {
         //
     }
-}
+        }

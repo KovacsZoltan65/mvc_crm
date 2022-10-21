@@ -25,6 +25,10 @@ abstract class Model
         RULE_MATCH = 'match',
         RULE_UNIQUE = 'unique';
     
+    public const STATUS_INACTIVE = 0,
+        STATUS_ACTIVE = 1,
+        STATUS_DELETED = 2;
+
     public array $errors = [];
     
     public int $mod_u_id = 0;
@@ -230,4 +234,7 @@ abstract class Model
         
         return $arr;
     }
+
+    
+
 }

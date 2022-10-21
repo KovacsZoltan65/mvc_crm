@@ -29,6 +29,15 @@ class CurrencyController extends Controller
         $this->registerMiddleware(new AuthMiddleware(['currencies']));
     }
     
+    public function getCurrenciesToSelect()
+    {
+        $currencies = Currency::find(['in_select' => 1]);
+        
+        usort($currencies, fn($a, $b) => strcmp($a->currency, $b->currency));
+        
+        return $currencies;
+    }
+    
     public function currencies(Request $request, Response $response)
     {
         $currencies = Currency::getAll();

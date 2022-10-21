@@ -1,5 +1,7 @@
 <?php
 
+use app\controllers\CountryController;
+use app\controllers\CurrencyController;
 use app\core\form\Anchor;
 use app\core\form\Button;
 use app\core\form\Form;
@@ -29,24 +31,39 @@ echo $form->field($model, "id")->hiddenField();
 echo $form->field($model, 'name');
 
 // ----------------------------
-// Select
+// Ország
 // ----------------------------
-/*
+
+//$countries = (new CountryController)->getCountriesToSelect();
 echo (new Select($model, [
-    'id' => 'select',
-    'name' => 'select',
+    'id' => 'country_id',
+    'name' => 'country_id',
     'class' => 'form-control',
     'value_field' => 'id',
     'selected_field' => 'id',
-    'title_field' => 'name',
+    'model_selected_field' => 'id',
+    'title_field' => 'country_hu',
     'blank_row' => true,
-    'data' => [
-        ['id' => 1, 'name' => 'name 01'], 
-        ['id' => 2, 'name' => 'name 02'], 
-        ['id' => 3, 'name' => 'name 03'],
-    ],
+    'data' => $countries,
 ] ));
-*/
+
+// ----------------------------
+// Pénznem
+// ----------------------------
+//$currencies = (new CurrencyController)->getCurrenciesToSelect();
+echo (new Select($model, [
+    'id' => 'currency',
+    'name' => 'currency',
+    'class' => 'form-control',
+    'value_field' => 'currency',
+    'selected_field' => 'currency',
+    'model_selected_field' => 'currency',
+    'title_field' => 'currency',
+    'blank_row' => true,
+    'data' => $currencies,
+] ));
+
+
 // ----------------------------
 // "Mégsem" gomb
 // ----------------------------
@@ -62,8 +79,8 @@ echo (new Anchor([
 // ----------------------------
 echo (new Button([
     'id' => 'btn',
-    'type' => 'submit',
     'class' => 'btn btn-primary',
+    'style' => 'margin-right: 5px;margin-left: 5px',
     'title' => Language::trans('save')
 ]))->submit();
 

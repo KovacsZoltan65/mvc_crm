@@ -17,10 +17,13 @@ namespace app\core\form;
  */
 class Anchor
 {
+    const TYPE_BUTTON = 'button',
+        TYPE_ANCHOR = '';
+    public string $type = self::TYPE_BUTTON;
     public array $attributes = [];
-    
+
     /**
-     * 
+     *
      * @param array $attributes
      *              [
      *                  'id'    => '',
@@ -32,31 +35,37 @@ class Anchor
      *              ]
      */
     public function __construct(array $attributes)
-    {    
+    {
+        $this->type = self::TYPE_BUTTON;
         $this->attributes = $attributes;
     }
-    
+
     public function __toString()
     {
-        $name = ( !isset($this->attributes['name']) || $this->attributes['name'] == '' ) ? $this->attributes['id'] : $this->attributes['name'];
+        $name = (!isset($this->attributes['name']) || $this->attributes['name'] == '') ? $this->attributes['id'] : $this->attributes['name'];
+        $style = (isset($this->attributes['style']) ? 'style="' . $this->attributes['style'] . '"' : '');
         
-        $type = (isset($this->attributes['type'])) ? $this->attributes['type'] : 'button';
-        
-        $style = ( isset($this->attributes['style']) ) ? 'style="' . $this->attributes['style'] . '"' : '';
-        
-        $anchor = '<a href="' . $this->attributes['href'] . '" 
-                      id="' . $this->attributes['id'] . '"
-                      name="' . $name . '"
+        $anchor = '<a id="' . $this->attributes['id'] . '" 
+                      name="' . $name . '" 
+                      class="' . $this->attributes['class'] . '" 
                       ' . $style . '
-                      type="' . $type . '"
-                      class="' . $this->attributes['class'] . '">';
-        
-        $anchor .= (isset($this->attributes['title'])) ? 
-            $this->attributes['title'] : 
-            '<i class="' . $this->attributes['icon'] . '"></i>';
-        
+                      type="' . $this->type . '" 
+                      href="' . $this->attributes['href'] . '">';
+        $anchor .= (isset($this->attributes['icon']) ? '<i class="' . $this->attributes['icon'] . '"></i>' : $this->attributes['title']);
         $anchor .= '</a>';
-        
+
         return $anchor;
+    }
+
+    public function button(): Anchor
+    {
+        $this->type = self::TYPE_BUTTON;
+        return $this;
+    }
+
+    public function anchor(): Anchor
+    {
+        $this->type = self::TYPE_ANCHOR;
+        return $this;
     }
 }

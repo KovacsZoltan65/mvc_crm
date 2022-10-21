@@ -5,6 +5,10 @@
     "contact": "Contact",
     "profile": "Profile",
     "currencies": "Currencies",
+    "currency": "Currency",
+    
+    "countries": "Countries",
+    "country": "Country",
     
     "login": "Login",
     "register": "Register",
@@ -24,9 +28,19 @@
     "company_edit":"Edit Company",
     "company_delete":"Delete Company",
     
+    "humans":"Humans",
+    "human":"Human",
+    
     "add new": "Add New",
+    "edit": "Edit",
     "save": "Save",
     "create": "Create",
     "delete": "Delete",
-    "cancel":"Cancel"
+    "cancel":"Cancel",
+    "choose": "Choose",
+    
+    "inactive":"Inactive",
+    "active":"Active",
+    "deleted":"Deleted"
+    
 }

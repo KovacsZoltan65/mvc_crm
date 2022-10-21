@@ -9,7 +9,7 @@
 namespace app\core;
 
 use app\core\db\Database;
-use app\core\db\DbModel;
+//use app\core\db\DbModel;
 use Exception;
 
 /**
@@ -23,95 +23,89 @@ class Application
     public static string $ROOT_DIR;
     public string $layout = 'main';
     public string $userClass;
-	public Router $router;
+    public Router $router;
     public Request $request;
     public Response $response;
     public Session $session;
     public static Application $app;
     public Database $db;
-    
+
     public ?UserModel $user;
     public ?Controller $controller = null;
-    
-    public View $view;
-    public Functions $functions;
 
-    private $config = [];
-    
+    public View $view;
+    //public Functions $functions;
+
+    private array $config;
+
     /**
      * Előkészítés
-     * @param type $rootPath
+     * @param string $rootPath
      * @param array $config
      */
-    public function __construct($rootPath, array $config)
-	{
+    public function __construct(string $rootPath, array $config)
+    {
         $this->userClass = $config['userClass'];
         self::$ROOT_DIR = $rootPath;
         self::$app = $this;
-		$this->request = new Request();
+        $this->request = new Request();
         $this->response = new Response();
         $this->session = new Session();
         $this->router = new Router($this->request, $this->response);
         $this->view = new View();
-        
+
         $this->config = $config;
-        
+
         $this->db = new Database($config['db']);
-        
+
         $primary_value = $this->session->get('user');
-        if( $primary_value )
-        {
+        if ($primary_value) {
             $primary_key = $this->userClass::primaryKey();
             $this->user = $this->userClass::findOne([$primary_key => $primary_value]);
-        }
-        else
-        {
+        } else {
             $this->user = null;
         }
-	}
+    }
 
     /**
      * Alkalmazás futtatása
      */
-	public function run()
-	{
-        try
-        {
+    public function run()
+    {
+        try {
             echo $this->router->resolve();
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $this->response->setStatusCode($e->getCode());
             echo $this->view->renderView('_error', [
                 'exception' => $e
             ]);
         }
-	}
-    
+    }
+
     /**
      * Beállított kontroller lekérése
      * @return Controller
      */
-    public function getController(): Controller
-    {
-        return $this->controller;
-    }
-    
+    //public function getController(): Controller
+    //{
+    //    return $this->controller;
+    //}
+
     /**
      * Kontroller beállítása
      * @param Controller $controller
      */
-    public function setController(Controller $controller): void
-    {
-        $this->controller = $controller;
-    }
-    
+    //public function setController(Controller $controller): void
+    //{
+    //    $this->controller = $controller;
+    //}
+
     /**
      * Belépés a rendszerbe
      * @param UserModel $user
      * @return boolean
      */
-    public function login(UserModel $user)
+    public function login(UserModel $user): bool
     {
         $this->user = $user;
         // Adattábla elsődleges kulcsának neve
@@ -120,61 +114,57 @@ class Application
         $primaryValue = $user->{$primaryKey};
         // Beteszem a felhasználói azonosítót a SESSION-be
         $this->session->set('user', $primaryValue);
-        
+
         return true;
     }
-    
+
     /**
      * Kilépés a rendszerből
      */
     public function logout()
     {
         $this->user = null;
-        
+
         $this->session->remove('user');
     }
-    
+
     /**
      * Be van jelentkezve a felhasználó?
-     * @return type
+     * @return bool
      */
-    public static function isGuest()
+    public static function isGuest(): bool
     {
         return !self::$app->user;
     }
-    
+
     /**
      * Beállítás elemének lekérése
      * @param string $path
-     * @return boolean
+     * @return string
      */
-    public function getConfig(string $path)
+    public function getConfig(string $path): string
     {
-        if( $path )
-        {
+        $retval = '';
+        if ($path) {
             $config = $this->config;
             $path = explode('/', $path);
-            
-            foreach( $path as $bit )
-            {
-                if( isset($config[$bit]) )
-                {
-                    $config = $config[$bit];
+
+            foreach ($path as $bit) {
+                if (isset($config[$bit])) {
+                    //$config = $config[$bit];
+                    $retval = $config[$bit];
+                    break;
                 }
             }
-            
-            return $config;
         }
-        return false;
+        return $retval;
     }
-    
+
     public function getHost(): string
     {
-        $host = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 
-            "https" : 
-            "http") . "://$_SERVER[HTTP_HOST]";
-        
-        return $host;
+        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
+                "https" :
+                "http") . "://$_SERVER[HTTP_HOST]";
     }
-    
+
 }

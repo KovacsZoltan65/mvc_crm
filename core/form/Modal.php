@@ -34,15 +34,6 @@ class Modal
     
     public function __toString()
     {
-        /*
-        $attributes = [
-            'modal_title' => '',
-            'modal_body' => '',
-            'modal_cancel_button' => '',
-            'modal_function_button' => '',
-        ];
-        */
-        
         $name = ( !isset($this->attributes['name']) || $this->attributes['name'] == '' ) 
             ? $this->attributes['id'] 
             : $this->attributes['name'];
@@ -55,13 +46,6 @@ class Modal
             default:
                 break;
         }
-        
-        // <div class="modal fade" 
-        //      id="exampleModal" 
-        //      tabindex="-1" 
-        //      role="dialog" 
-        //      aria-labelledby="exampleModalLabel" 
-        //      aria-hidden="true">
         
         $modal = 
             '<div class="modal fade" 
@@ -82,16 +66,16 @@ class Modal
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    
-                        <div class="modal-body">
-                          ' . $this->attributes['modal_body'] . '
-                        </div>
-                    
-                        <div class="modal-footer">' 
-                            . (new Button($this->attributes['modal_cancel_button']))->button() 
-                            . (new Button($this->attributes['modal_function_button']))->button() . '
-                        </div>
-                    
+                        <form action="' . $this->attributes['form_action'] . '" method="' . $this->attributes['form_method'] . '">
+                            <div class="modal-body">
+                              ' . $this->attributes['modal_body'] . '
+                            </div>
+
+                            <div class="modal-footer">' 
+                                . (new Button($this->attributes['modal_cancel_button']))->button() 
+                                . (new Button($this->attributes['modal_function_button']))->submit() . '
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>';

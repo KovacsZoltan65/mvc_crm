@@ -36,4 +36,10 @@ class Language
         
         return $retval;
     }
+    
+    public static function load(string $lang) : void
+    {
+        //
+    }
+    
 }

@@ -22,10 +22,11 @@ $dotenv->load();
 $config = [
     'userClass' => User::class,
     'lang' => 'hu',
+    'delete' => 'soft_delete',
     'db' => [
-                 'dsn' => $_ENV['DB_DSN'],
-            'username' => $_ENV['DB_USER'],
-            'password' => $_ENV['DB_PASSWORD'],
+        'dsn' => $_ENV['DB_DSN'],
+        'username' => $_ENV['DB_USER'],
+        'password' => $_ENV['DB_PASSWORD'],
         'app_mode_dev' => $_ENV['APP_MODE_DEV'],
     ],
 ];
@@ -56,9 +57,12 @@ $app->router->post('/contact', [SiteController::class, 'contact']);
 // ============================
 // Cég adatok kezelése
 // ============================
-$app->router->get('/companies', [CompanyController::class, 'companies']);
+$app->router->get('/companies', [CompanyController::class, 'getCompanies']);
 
-$app->router->get ('/api/company/{id}', [CompanyController::class, 'getCompany']);
+$app->router->get('/api/company/{id}', [CompanyController::class, 'getCompany']);
+
+$app->router->post('/api/company/delete', [CompanyController::class, 'company_delete']);
+//$app->router->get('/api/company/delete/{id}', [CompanyController::class, 'company_delete']);
 
 $app->router->get('/company_new', [CompanyController::class, 'company_new']);
 $app->router->post('/company_new', [CompanyController::class, 'company_new']);
@@ -70,23 +74,31 @@ $app->router->post('/company_delete/{id}', [CompanyController::class, 'company_d
 // ============================
 // Felhasználói adatok kezelése
 // ============================
-$app->router->get ('/users', [UserController::class, 'users']);
-$app->router->get ('/user_new', [UserController::class, 'user_new']);
+$app->router->get('/users', [UserController::class, 'users']);
+$app->router->get('/user_new', [UserController::class, 'user_new']);
 $app->router->post('/user_new', [UserController::class, 'user_new']);
-$app->router->get ('/user_edit/{id}', [UserController::class, 'user_edit']);
+$app->router->get('/user_edit/{id}', [UserController::class, 'user_edit']);
 $app->router->post('/user_edit/{id}', [UserController::class, 'user_edit']);
-$app->router->get ('/user_delete/{id}', [UserController::class, 'user_delete']);
+$app->router->get('/user_delete/{id}', [UserController::class, 'user_delete']);
 $app->router->post('/user_delete/{id}', [UserController::class, 'user_delete']);
 
 // ============================
 // Pénznem adatok kezelése
 // ============================
 $app->router->get('/currencies', [CurrencyController::class, 'currencies']);
-$app->router->get ('/currency_new', [CurrencyController::class, 'currency_new']);
+$app->router->get('/currency_new', [CurrencyController::class, 'currency_new']);
 $app->router->post('/currency_new', [CurrencyController::class, 'currency_new']);
-$app->router->get ('/currency_edit/{id}', [CurrencyController::class, 'currency_edit']);
+$app->router->get('/currency_edit/{id}', [CurrencyController::class, 'currency_edit']);
 $app->router->post('/currency_edit/{id}', [CurrencyController::class, 'currency_edit']);
-$app->router->get ('/currency_delete/{id}', [CurrencyController::class, 'currency_delete']);
+$app->router->get('/currency_delete/{id}', [CurrencyController::class, 'currency_delete']);
 $app->router->post('/currency_delete/{id}', [CurrencyController::class, 'currency_delete']);
+
+// ============================
+// Humans adatok kezelése
+// ============================
+$app->router->get('/humans', [app\controllers\HumanController::class, 'humans']);
+$app->router->get('/human_new', [app\controllers\HumanController::class, 'human_new']);
+$app->router->get('/human_edit', [app\controllers\HumanController::class, 'human_edit']);
+
 
 $app->run();

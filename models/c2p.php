@@ -1,52 +1,33 @@
 <?php
 
 /**
- * Company.php
+ * Permission.php
  * User: kzoltan
- * Date: 2022-05-18
- * Time: 08:30
+ * Date: 2022-10-21
+ * Time: 10:15
  */
 
 namespace app\models;
 
-use app\core\Application;
-use app\core\db\DbModel;
-use app\core\Language;
-
 /**
- * Description of Company
- * Class Company
- * @author  Kovács Zoltán <zoltan1_kovacs@msn.com>
- * @package namespace app\models
- * @version 1.0
+ * Description of Company to Person
+ *
+ * @author kzoltan
  */
-class Company extends DbModel
+class c2p extends \app\core\db\DbModel
 {
-    public int $id = 0,
-        $status = 1,
-        $country_id = 0;
-    public string $name = '',
-        $currency = '';
-    
-    public function __construct()
-    {
-        //$this->mod_u_id = $_SESSION['user'];
-        parent::__construct();
-        /*
-        foreach( $this->attributes() as $attribute)
-        {
-            $this->$attribute;
-        }
-        */
-    }
-    
-    public function save(): bool
+    public int $id,
+        $company_id,
+        $human_id,
+        $status;
+
+    public function save()
     {
         $tableName = $this->tableName();
         $attributes = $this->attributes();
-        array_push($attributes, 'mod_u_id');
+        array_push($atributes, 'mod_u_id');
         $params = array_map(fn($attr) => ":$attr", $attributes);
-        
+
         if( $this->{$this->primaryKey()} == 0 )
         {
             $query = "INSERT INTO $tableName(" . implode(',', $attributes) . ") VALUES(" . implode(',', $params) . ");";
@@ -72,14 +53,12 @@ class Company extends DbModel
             }
             $query = "UPDATE $tableName SET $set WHERE $where;";
         }
-
         $statement = self::prepare($query);
 
-        foreach($attributes as $attribute)
+        foreach( $attributes as $attribute )
         {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
-
         $statement->execute();
 
         return true;
@@ -91,7 +70,7 @@ class Company extends DbModel
         $idField = $this->primaryKey();
         $attributes = [];
         $params = [];
-
+        
         if( Application::$app->getConfig('delete') == 'soft_delete' )
         {
             $this->status = self::STATUS_INACTIVE;
@@ -109,9 +88,9 @@ class Company extends DbModel
             $attributes = ['id'];
             $params = array_map(fn($attr) => ":$attr", $attributes);
         }
-
+        
         $statement = self::prepare($query);
-
+        
         foreach( $attributes as $attribute )
         {
             $statement->bindValue(":$attribute", $this->{$attribute});
@@ -122,25 +101,11 @@ class Company extends DbModel
         return true;
     }
     
-    private function insert()
-    {
-        //
-    }
-    
-    private function update()
-    {
-        //
-    }
-    
-    /**
-     * 
-     * @return array
-     */
     public function attributes(): array
     {
-        return ['id', 'name', 'status','currency','country_id'];
+        return ['id','company_id','human_id','status'];
     }
-
+    
     /**
      * Szabályok
      * @return array
@@ -148,30 +113,15 @@ class Company extends DbModel
     public function rules(): array
     {
         return [
-            'name' => [self::RULE_REQUIRED],
-            'currency' => [self::RULE_REQUIRED],
-            'company_id' => [
-                self::RULE_REQUIRED,
-                [self::RULE_MIN, 'min' => 1]
-            ],
-        ];
-    }
-
-    /**
-     * Címkék
-     * @return array
-     */
-    public function labels(): array
-    {
-        return [
-            'name' => Language::trans('name'),
-            'country' => Language::trans('country'),
-            'currency' => Language::trans('currency'),
+            'id' => [self::RULE_REQUIRED],
+            'company_id' => [self::RULE_REQUIRED],
+            'human_id' => [self::RULE_REQUIRED],
+            'status' => [self::RULE_REQUIRED],
         ];
     }
     
     /**
-     * Elsődleges kulcs mező neve
+     * Elsődleges kulcs
      * @return string
      */
     public static function primaryKey(): string
@@ -179,37 +129,34 @@ class Company extends DbModel
         return 'id';
     }
 
-    /**
-     * Tábla neve
-     * @return string
-     */
     public static function tableName(): string
     {
-        return 'companies';
+        return 'c2p';
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
     }
 
     public function __serialize(): array
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'country_id' => $this->country_id,
-            'currency' => $this->currency,
+            'company_id' => $this->company_id,
+            'human_id' => $this->human_id,
             'status' => $this->status,
         ];
     }
-
-    public function __unserialize(array $data): void
+    public function __unserialize(array $data)
     {
         $this->id = $data['id'];
-        $this->name = $data['name'];
-        $this->country_id = $data['country_id'];
-        $this->currency = $data['currency'];
+        $this->company_id = $data['company_id'];
+        $this->human_id = $data['human_id'];
         $this->status = $data['status'];
     }
-
     public function __toString(): string
     {
-        return "$this->id;$this->name;$this->country_id;$this->currency;$this->status";
+        return "$this->id,$this->company_id,$this->human_id,$this->status";
     }
 }

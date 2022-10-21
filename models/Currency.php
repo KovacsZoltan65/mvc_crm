@@ -10,6 +10,7 @@
 namespace app\models;
 
 use app\core\db\DbModel;
+use app\core\Language;
 
 /**
  * Description of Currency
@@ -20,6 +21,17 @@ use app\core\db\DbModel;
  */
 class Currency extends DbModel
 {
+    public int $id,
+        $currency_decimal,
+        $balance_enable,
+        $card_payment_enable,
+        $invoice_payment_enable,
+        $status,
+        $in_select = self::INT_FALSE;
+    
+    public string $currency = '',
+        $currency_symbol = '';
+    
     public function __construct()
     {
         parent::__construct();
@@ -44,29 +56,40 @@ class Currency extends DbModel
     public function attributes(): array
     {
         return [
-            'id','lang_hu','lang_orig','country_hu',
-            'country_orig','country_short','currency','vat_region',
+            'currency',
+            'currency_decimal',
+            'balance_enable',
+            'card_payment_enable',
+            'invoice_payment_enable',
+            'currency_symbol',
             'in_select','status'
         ];
     }
 
+    /**
+     * Szabályok
+     * @return array
+     */
     public function rules(): array
     {
         return [
-            'lang_hu' => [self::RULE_REQUIRED],
-            'lang_orig' => [self::RULE_REQUIRED],
-            'country_hu' => [self::RULE_REQUIRED],
-            'country_orig' => [self::RULE_REQUIRED],
-            'country_short' => [self::RULE_REQUIRED],
-            'currency' => [self::RULE_REQUIRED],
-            'vat_region' => [self::RULE_REQUIRED],
-            'in_select' => [self::RULE_REQUIRED]
+            
+                          'currency' => [self::RULE_REQUIRED],
+                  'currency_decimal' => [self::RULE_REQUIRED],
+                    'balance_enable' => [self::RULE_REQUIRED],
+               'card_payment_enable' => [self::RULE_REQUIRED],
+            'invoice_payment_enable' => [self::RULE_REQUIRED],
+                   'currency_symbol' => [self::RULE_REQUIRED],
+                         'in_select' => [self::RULE_REQUIRED],
+                            'status' => [self::RULE_REQUIRED],
         ];
     }
 
     public function labels(): array
     {
-        return [];
+        return [
+            'currency' => Language::trans('currency')
+        ];
     }
     
     public static function primaryKey(): string
@@ -79,4 +102,32 @@ class Currency extends DbModel
         return 'currencies';
     }
 
+    public function __serialize(): array
+    {
+        return [
+            'currency' => $this->currency,
+            'currency_decimal' => $this->currency_decimal,
+            'balance_enable' => $this->balance_enable,
+            'card_payment_enable' => $this->card_payment_enable,
+            'invoice_payment_enable' => $this->invoice_payment_enable,
+            'currency_symbol' => $this->currency_symbol,
+            'status' => $this->status,
+        ];
+    }
+    
+    public function __unserialize(array $data): void
+    {
+        $this->currency = $data['currency'];
+        $this->currency_decimal = $data['currency_decimal'];
+        $this->balance_enable = $data['balance_enable'];
+        $this->card_payment_enable = $data['card_payment_enable'];
+        $this->invoice_payment_enable = $data['invoice_payment_enable'];
+        $this->currency_symbol = $data['currency_symbol'];
+        $this->status = $data['status'];
+    }
+    
+    public function __toString(): string
+    {
+        return "$this->;$this->currency_decimal;$this->balance_enable;$this->card_payment_enable;$this->invoice_payment_enable;$this->currency_symbol;$this->status;";
+    }
 }

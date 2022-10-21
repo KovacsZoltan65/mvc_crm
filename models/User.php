@@ -20,16 +20,17 @@ use app\core\UserModel;
  */
 class User extends UserModel
 {
-    //const STATUS_INACTIVE = 0;
-    //const STATUS_ACTIVE = 1;
-    //const STATUS_DELETED = 2;
-    
-    public string $first_name = '',
-        $last_name = '',
-        $email = '',
+    public string $email = '',
         $password = '',
-        $confirm_password = '';
-    public int $status = self::STATUS_INACTIVE;
+        $confirm_password = '',
+        $first_name = '',
+        $last_name = '',
+        $phone_number = '',
+        $time_zone = '';
+    public int $int = 0,
+        $country_id = 0,
+        $news_subscription = 0,
+        $status = self::STATUS_INACTIVE;
     
     public function save()
     {
@@ -94,12 +95,12 @@ class User extends UserModel
     public function labels(): array
     {
         return [
-            'first_name' => Language::trans('first_name'),
-            'last_name' => Language::trans('last_name'),
-            'email' => Language::trans('email'),
-            'password' => Language::trans('password'),
+                  'first_name' => Language::trans('first_name'),
+                   'last_name' => Language::trans('last_name'),
+                       'email' => Language::trans('email'),
+                    'password' => Language::trans('password'),
             'confirm_password' => Language::trans('confirm_password'),
-            'status' => Language::trans('status')
+                      'status' => Language::trans('status')
         ];
     }
 
@@ -112,4 +113,36 @@ class User extends UserModel
         return "$this->first_name $this->last_name";
     }
 
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'phone_number' => $this->phone_number,
+            'time_zone' => $this->time_zone,
+            'country_id' => $this->country_id,
+            'news_subscription' => $this->news_subscription,
+            'status' => $this->status,
+        ];
+    }
+    
+    public function __unserialize(array $data)
+    {
+        $this->id = $data['id'];
+        $this->email = $data['email'];
+        $this->first_name = $data['first_name'];
+        $this->last_name = $data['last_name'];
+        $this->phone_number = $data['phone_number'];
+        $this->time_zone = $data['time_zone'];
+        $this->country_id = $data['country_id'];
+        $this->news_subscription = $data['news_subscription'];
+        $this->status = $data['status'];
+    }
+    
+    public function __toString(): string
+    {
+        return "$this->id;$this->email;$this->first_name;$this->last_name;$this->phone_number;$this->time_zone;$this->country_id;$this->news_subscription;$this->status";
+    }
 }

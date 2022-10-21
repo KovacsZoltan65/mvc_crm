@@ -65,6 +65,10 @@ $active_menu = Functions::getActiveMenu();
                         <a class="nav-link" href="/companies"><?php echo Language::trans('companies'); ?></a>
                     </li>
                     
+                    <li class="nav-item <?php echo ( $active_menu === 'humans') ? 'active' : ''; ?>">
+                        <a class="nav-link" href="/humans"><?php echo Language::trans('humans'); ?></a>
+                    </li>
+                    
                     <li class="nav-item <?php echo ( $active_menu === 'users' ) ? 'active' : ''; ?>">
                         <a class="nav-link" href="/users"><?php echo Language::trans('users'); ?></a>
                     </li>

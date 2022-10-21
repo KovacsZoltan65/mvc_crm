@@ -51,13 +51,17 @@ class Select
     public function __toString()
     {
         $name = ( !isset($this->attributes['name']) || $this->attributes['name'] == '' ) ? $this->attributes['id'] : $this->attributes['name'];
+        $style = ( isset($this->attributes['style']) ? 'style="' . $this->attributes['style'] . '"' : '' );
         
         $str = '<select id="' . $this->attributes['id'] . '" 
                         name="' . $name . '" 
-                        class="' . $this->attributes['class'] . '">';
+                        class="' . $this->attributes['class'] . '" 
+                        ' . $style . '
+                >';
         
         $value_field = $this->attributes['value_field'];
         $selected_field = $this->attributes['selected_field'];
+        $model_selected_field = $this->attributes['model_selected_field'];
         $title_field = $this->attributes['title_field'];
         
         $options = '';
@@ -76,25 +80,33 @@ class Select
         foreach( $this->attributes['data'] as $key => $d )
         {
             $selected = '';
-            if( $d[$selected_field] == $this->model->$selected_field )
+            
+            if( isset($this->model->$model_selected_field) && isset($d->$selected_field) )
             {
-                $selected = 'selected';
+                if(
+                    $this->model->$model_selected_field != 0 && 
+                    $d->$selected_field == $this->model->$model_selected_field 
+                )
+                {
+                    $selected = 'selected';
+                }
             }
             
-            // 
-            $options .= '<option value="' . $d[$value_field] . '" ' . $selected . ' >' . $d[$title_field] . '</option>';
+            $options .= '<option value="' . $d->$value_field . '" ' . $selected . ' >' . $d->$title_field . '</option>';
         }
-        //return $str . '</select>';
         
         $name = ( !isset($this->attributes['name']) || $this->attributes['name'] == '' ) ? $this->attributes['id'] : $this->attributes['name'];
+        $arr = $this->model->getClasses($this->attributes['id']);
         
         $select = '<div class="form-group">
-            <label for="' . $this->attributes['id'] . '">' . $this->model->getLabel('name') . '</label>
-                <select class="' . $this->attributes['class'] . '" 
+            <label for="' . $this->attributes['id'] . '">' . $this->model->getLabel($this->attributes['title_field']) . '</label>
+                <select class="' . $this->attributes['class'] . $arr['class_1'] . '" 
                         id="' . $this->attributes['id'] . '" 
                         name="' . $name . '" >
                     ' . $options . '
                 </select>
+                <div id="' . $this->attributes['model_selected_field'] . 'Help" name="' . $this->attributes['model_selected_field'] . 'Help" 
+                     class="' . $arr['class_2'] . '">' . $this->model->getFirstError($this->attributes['model_selected_field']) . '</div>
             </div>';
         
         return $select;
