@@ -32,8 +32,9 @@ class CurrencyController extends Controller
     public function getCurrenciesToSelect()
     {
         $currencies = Currency::find(['in_select' => 1]);
-        
-        usort($currencies, fn($a, $b) => strcmp($a->currency, $b->currency));
+
+        //usort($currencies, fn($a, $b) => strcmp($a->currency, $b->currency));
+        usort($currencies, function($a, $b){ return strcmp($a->currency, $b->currency); });
         
         return $currencies;
     }

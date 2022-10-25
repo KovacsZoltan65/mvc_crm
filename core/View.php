@@ -33,17 +33,33 @@ class View
         return str_replace('{{content}}', $viewContent, $layoutContent);
     }
     
+    /**
+     * Sablon betöltése
+     * @version 1.0
+     * @return string|bool
+     */
     protected function layoutContent()
     {
+        // Beállított sablon lekérése
         $layout = Application::$app->layout;
-        if( Application::$app->controller ){
+        if( Application::$app->controller )
+        {
             $layout = Application::$app->controller->layout;
         }
         ob_start();
+        
         include_once Application::$ROOT_DIR . "/views/layouts/$layout.php";
+        
         return ob_get_clean();
     }
     
+    /**
+     * 
+     * @version 1.0
+     * @param string $view
+     * @param array $params
+     * @return string|bool
+     */
     protected function renderOnlyView($view, $params)
     {
         foreach($params as $key => $value)

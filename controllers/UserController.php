@@ -71,7 +71,7 @@ class UserController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $user = User::findOne(['id' => $id]);
+            $user = User::find(['id' => $id]);
         }
         
         if( $request->isPost() )
@@ -97,7 +97,7 @@ class UserController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $user = User::findOne(['id' => $id]);
+            $user = User::find(['id' => $id]);
         }
         
         if( $request->isPost() )

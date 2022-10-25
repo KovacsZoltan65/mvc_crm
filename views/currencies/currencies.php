@@ -32,11 +32,6 @@ $this->title = Language::trans('currencies');
     </thead>
     <tbody>
         <?php foreach($currencies as $currency): ?>
-        <?php
-            //echo '<pre>';
-            //print_r($currency);
-            //echo '</pre>';
-        ?>
         <tr>
             <td><?php echo $currency->currency; ?></td>
             <td><?php echo $currency->currency_symbol; ?></td>

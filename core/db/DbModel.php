@@ -37,29 +37,36 @@ abstract class DbModel extends Model
 
     /**
      * Adatok mentése
+     * @version 1.0
      * @return boolean
      */
     public function save()
     {
+        // Táblanév lekérése
         $tableName = $this->tableName();
+        // Paraméterek
         $attributes = $this->attributes();
         $params = array_map(fn($attr) => ":$attr", $attributes);
-
+        
+        //$params = array_map( function($attr){ return ":$attr"; }, $attributes );
+        // Futtatndó lekérdezés
         $query = "INSERT INTO $tableName(" . implode(',', $attributes) . ") VALUES(" . implode(',', $params) . ");";
-
+        // Előkészítés
         $statement = self::prepare($query);
-
-        foreach ($attributes as $attribute) {
+        // Paraméterek kötése
+        foreach ($attributes as $attribute)
+        {
             $statement->bindValue(":$attribute", $this->{$attribute});
         }
-
-        $statement->execute();
-
-        return true;
+        // Futtatás
+        $res = $statement->execute();
+        // true: sikeres | false: sikertelen futás
+        return $res;
     }
 
     public function delete()
     {
+        // Táblanév lekérése
         $tableName = $this->tableName();
         $attributes = $this->attributes();
 
@@ -86,59 +93,97 @@ abstract class DbModel extends Model
         return $statement->fetchObject(static::class);
     }
 
+    /**
+     * Keresés az adattáblában a megadott paraméterek alapján
+     * @version 1.0
+     * @param array $where
+     * @return array
+     */
     public static function find(array $where)
     {
+        // Táblanév lekérése
         $tableName = static::tableName();
+        // Feltételek
         $attributes = array_keys($where);
+        
         $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql;");
-
-        foreach ($where as $key => $item) {
+        
+        $query = "SELECT * FROM $tableName WHERE $sql;";
+        
+        // Előkészítés
+        $statement = self::prepare($query);
+        // Paraméterek kötése
+        foreach ($where as $key => $item)
+        {
             $statement->bindValue(":$key", $item);
         }
+        // Futtatás
         $statement->execute();
-
-        return $statement->fetchAll(PDO::FETCH_CLASS, static::class);
+        
+        //return $statement->fetchAll(PDO::FETCH_CLASS, static::class);
+        return $statement->fetchObject(static::class);
     }
-
+    /**
+     * Adattábla összes rekordjának lekérése
+     * @version 1.0
+     * @return array
+     */
     public static function getAll(): array
     {
+        // Táblanév lekérése
         $tableName = static::tableName();
+        // Futtatandó lekérdezés
         $sql = "SELECT * FROM $tableName;";
-
+        // Előkészítés
         $statement = self::prepare($sql);
-
+        // Futtatás
         $statement->execute();
-
+        // Eredményhalmaz osztállyá alakítás, és visszaküldés
         return $statement->fetchAll(PDO::FETCH_CLASS, static::class);
     }
 
     /**
      * Adatbáziskérés előkészítése
+     * @version 1.0
      * @param string $sql Lekérdezés
-     * @return type
+     * @return \PDOStatement|false
      */
-    public static function prepare(string $sql)
+    public static function prepare(string $sql): \PDOStatement|false
     {
         return Application::$app->db->pdo->prepare($sql);
     }
 
+    /**
+     * Rekord státusz azonosítójának szöveges értéke
+     * @return string
+     */
     public function getStatusName(): string
     {
+        // Visszetérő érték
         $status_name = '';
-        if ($this->status === 0) {
+        
+        if ($this->status === 0)
+        {
             $status_name = self::STATUS_INACTIVE;
-        } elseif ($this->status === 1) {
+        }
+        elseif ($this->status === 1)
+        {
             $status_name = self::STATUS_ACTIVE;
-        } elseif ($this->status === 2) {
+        }
+        elseif ($this->status === 2)
+        {
             $status_name = self::STATUS_DELETED;
         }
-
+        // Érték visszaküldése
         return $status_name;
     }
-
+    
+    /**
+     * Előkészítés
+     */
     public function __construct()
     {
+        // Ősosztály előkészítése
         parent::__construct();
     }
 }

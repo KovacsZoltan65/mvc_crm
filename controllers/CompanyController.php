@@ -52,7 +52,7 @@ class CompanyController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $company = Company::findOne(['id' => $id]);
+            $company = Company::find(['id' => $id]);
         }
 
         return json_encode($company);
@@ -91,7 +91,7 @@ class CompanyController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $company = Company::findOne(['id' => $id]);
+            $company = Company::find(['id' => $id]);
         }
 
         if( $request->isPost() )
@@ -123,7 +123,7 @@ class CompanyController extends Controller
         if( isset($request->getBody()['delete_id']) )
         {
             $id = $request->getBody()['delete_id'];
-            $company = Company::findOne(['id' => $id]);
+            $company = Company::find(['id' => $id]);
         }
 
         if( $request->isPost() )
@@ -132,15 +132,7 @@ class CompanyController extends Controller
         }
 
         /*
-        echo '<pre>';
-        print_r($request);
-        print_r($response);
-        print_r($request->getBody());
-        //print_r($request->getRouteParams());
-        echo '</pre>';
-
         $company = new Company();
-
         $company->loadData($request->getBody());
         */
 

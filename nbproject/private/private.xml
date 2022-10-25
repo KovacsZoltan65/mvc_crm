@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/mvc_crm/controllers/CompanyController.php</file>
-            <file>file:/C:/xampp/htdocs/mvc_crm/controllers/HumanController.php</file>
-            <file>file:/C:/xampp/htdocs/mvc_crm/views/humans/humans.php</file>
-            <file>file:/C:/xampp/htdocs/mvc_crm/views/companies/companies.php</file>
-            <file>file:/C:/xampp/htdocs/mvc_crm/views/layouts/main.php</file>
+            <file>file:/C:/xampp/htdocs/mvc_crm/core/View.php</file>
         </group>
     </open-files>
 </project-private>

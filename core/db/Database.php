@@ -21,7 +21,10 @@ class Database
     
     /**
      * Konstruktor
+     * @version 1.0
+     *
      * @param array $config
+     * @return void
      */
     public function __construct(array $config)
     {
@@ -38,6 +41,9 @@ class Database
     
     /**
      * Migráció végrehajtása
+     * @version 1.0
+     *
+     * @return void
      */
     public function applyMigrations()
     {
@@ -85,6 +91,9 @@ class Database
     
     /**
      * Migrációs tábla létrehozása, ha még nem létezik
+     * @version 1.0
+     *
+     * @return int|bool
      */
     public function createMigrationsTable()
     {
@@ -97,7 +106,9 @@ class Database
     
     /**
      * Végrehajtott migrácuók lekérése
-     * @return type
+     * @version 1.0
+     *
+     * @return array
      */
     public function getAppliedMigrations()
     {
@@ -107,6 +118,14 @@ class Database
         return $statement->fetchAll(\PDO::FETCH_COLUMN);
     }
 
+    /**
+     *
+     * Végrehajtott migráció mentése
+     * @version 1.0
+     *
+     * @param array $migrations
+     * @return bool
+     */
     public function saveMigrations(array $migrations)
     {
         $str = implode(',', array_map(fn($m) => "('$m')", $migrations));
@@ -114,6 +133,11 @@ class Database
         $statement->execute();
     }
 
+    /**
+     *
+     * @param type $sql
+     * @return \PDOStatement|bool
+     */
     public function prepare($sql)
     {
         return $this->pdo->prepare($sql);

@@ -22,14 +22,15 @@ use app\core\Model;
  */
 class LoginForm extends Model
 {
-    public string $email = '', $password = '';
+    public string $email = '', 
+        $password = '';
     
     /**
      * Konstruktor
      */
     public function __construct()
     {
-        //
+        parent::__construct();
     }
     
     /**
@@ -39,7 +40,7 @@ class LoginForm extends Model
     public function login()
     {
         // Felhasználó lekérése email alapján
-        $user = User::findOne(['email' => $this->email]);
+        $user = User::find(['email' => $this->email]);
         
         // Ha megtalálja a keresett felhasználót, akkor...
         if( !$user )
@@ -48,7 +49,6 @@ class LoginForm extends Model
             $this->addError('email', 'User does not exist with this email');
             return false;
         }
-        
         // Jelszó ellenőrzése
         if( !password_verify($this->password, $user->password) )
         {

@@ -10,13 +10,15 @@
 use app\controllers\AuthController;
 use app\controllers\CompanyController;
 use app\controllers\CurrencyController;
+use app\controllers\HumanController;
 use app\controllers\SiteController;
 use app\controllers\UserController;
 use app\core\Application;
 use app\models\User;
+use Dotenv\Dotenv;
 
 require_once __DIR__ . '/../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 $config = [
@@ -41,8 +43,8 @@ $app->router->get('/', [SiteController::class, 'home']);
 $app->router->get('/login', [AuthController::class, 'login']);
 $app->router->get('/login/{id}', [AuthController::class, 'login']);
 $app->router->get('/login/{id:\d+}/{username}', [AuthController::class, 'login']);
-
 $app->router->post('/login', [AuthController::class, 'login']);
+
 $app->router->get('/register', [AuthController::class, 'register']);
 $app->router->post('/register', [AuthController::class, 'register']);
 
@@ -96,9 +98,9 @@ $app->router->post('/currency_delete/{id}', [CurrencyController::class, 'currenc
 // ============================
 // Humans adatok kezelése
 // ============================
-$app->router->get('/humans', [app\controllers\HumanController::class, 'humans']);
-$app->router->get('/human_new', [app\controllers\HumanController::class, 'human_new']);
-$app->router->get('/human_edit', [app\controllers\HumanController::class, 'human_edit']);
+$app->router->get('/humans', [HumanController::class, 'humans']);
+$app->router->get('/human_new', [HumanController::class, 'human_new']);
+$app->router->get('/human_edit', [HumanController::class, 'human_edit']);
 
 
 $app->run();

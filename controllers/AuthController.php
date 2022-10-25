@@ -46,10 +46,10 @@ class AuthController extends Controller
     public function login(Request $request, Response $response)
     {
         $loginModel = new LoginForm();
-        
         if($request->isPost())
         {
             $loginModel->loadData($request->getBody());
+            
             if( $loginModel->validate() && $loginModel->login() )
             {
                 //$loginModel->login_logging();

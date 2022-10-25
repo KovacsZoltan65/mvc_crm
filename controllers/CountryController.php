@@ -49,7 +49,7 @@ class CountryController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $country = Country::findOne(['id' => $id]);
+            $country = Country::find(['id' => $id]);
         }
         
         return json_encode($country);
