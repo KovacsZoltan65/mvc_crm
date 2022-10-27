@@ -100,7 +100,7 @@ $app->router->post('/currency_delete/{id}', [CurrencyController::class, 'currenc
 // ============================
 $app->router->get('/humans', [HumanController::class, 'humans']);
 $app->router->get('/human_new', [HumanController::class, 'human_new']);
-$app->router->get('/human_edit', [HumanController::class, 'human_edit']);
+$app->router->get('/human_edit/{id}', [HumanController::class, 'human_edit']);
 
 
 $app->run();

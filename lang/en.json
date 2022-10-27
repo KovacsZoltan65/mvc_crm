@@ -30,6 +30,9 @@
     
     "humans":"Humans",
     "human":"Human",
+    "human_new": "New Human",
+    "human_edit": "Edit Human",
+    "human_delete": "Delete Human",
     
     "add new": "Add New",
     "edit": "Edit",
@@ -41,6 +44,8 @@
     
     "inactive":"Inactive",
     "active":"Active",
-    "deleted":"Deleted"
+    "deleted":"Deleted",
+    
+    "delete_success": "has been successfully deleted"
     
 }

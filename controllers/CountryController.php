@@ -38,6 +38,7 @@ class CountryController extends Controller
     public function getCountriesToSelect()
     {
         $countries = Country::find(['in_select' => 1]);
+        
         usort($countries, fn($a, $b) => strcmp($a->country_hu, $b->country_hu));
         
         return $countries;
@@ -49,7 +50,7 @@ class CountryController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $country = Country::find(['id' => $id]);
+            $country = Country::findOne(['id' => $id]);
         }
         
         return json_encode($country);

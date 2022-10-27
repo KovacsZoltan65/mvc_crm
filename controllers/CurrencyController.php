@@ -9,7 +9,6 @@
 
 namespace app\controllers;
 
-use app\core\Application;
 use app\core\Controller;
 use app\core\middlewares\AuthMiddleware;
 use app\core\Request;
@@ -32,7 +31,7 @@ class CurrencyController extends Controller
     public function getCurrenciesToSelect()
     {
         $currencies = Currency::find(['in_select' => 1]);
-
+        
         //usort($currencies, fn($a, $b) => strcmp($a->currency, $b->currency));
         usort($currencies, function($a, $b){ return strcmp($a->currency, $b->currency); });
         

@@ -43,16 +43,24 @@ class CompanyController extends Controller
             'companies' => $companies,
         ]);
     }
+    
+    public function getCompaniesToSelect()
+    {
+        $companies = Company::find(['in_select' => 1]);
+        
+        return $companies;
+    }
+    
     /*
      * @return string
-    */
+     */
     public function getCompany(Request $request, Response $response) : string
     {
         $company = new Company();
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $company = Company::find(['id' => $id]);
+            $company = Company::findOne(['id' => $id]);
         }
 
         return json_encode($company);
@@ -72,13 +80,13 @@ class CompanyController extends Controller
                 Application::$app->response->redirect('/companies');
             }
         }
-
+        
         $currencies = (new CurrencyController())->getCurrenciesToSelect();
         $countries = (new CountryController())->getCountriesToSelect();
         
         $this->setLayout('main');
         return $this->render('companies/company_new', [
-            'model' => $company,
+            'company' => $company,
             'currencies' => $currencies,
             'countries' => $countries,
         ]);
@@ -91,7 +99,7 @@ class CompanyController extends Controller
         if( isset($request->getRouteParams()['id']) )
         {
             $id = (int)$request->getRouteParams()['id'];
-            $company = Company::find(['id' => $id]);
+            $company = Company::findOne(['id' => $id]);
         }
 
         if( $request->isPost() )
@@ -110,7 +118,7 @@ class CompanyController extends Controller
         
         $this->setLayout('main');
         return $this->render('companies/company_edit', [
-            'model' => $company,
+            'company' => $company,
             'currencies' => $currencies,
             'countries' => $countries,
         ]);
@@ -123,26 +131,13 @@ class CompanyController extends Controller
         if( isset($request->getBody()['delete_id']) )
         {
             $id = $request->getBody()['delete_id'];
-            $company = Company::find(['id' => $id]);
+            $company = Company::findOne(['id' => $id]);
         }
 
         if( $request->isPost() )
         {
             $company->delete();
         }
-
-        /*
-        $company = new Company();
-        $company->loadData($request->getBody());
-        */
-
-        /*
-        $id = (int)$request->getRouteParams()['id'];
-        $company = Company::findOne(['id' => $id]);
-        echo '<pre>';
-        var_dump($company);
-        echo '</pre>';
-        */
     }
 
     /**

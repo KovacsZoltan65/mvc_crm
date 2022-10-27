@@ -23,7 +23,7 @@ class Human extends DbModel
         $company_id = 0,
         $country_id = 0,
         $status = 0;
-    public string $name;
+    public string $name = '';
 
     /**
      * Cellanevek
@@ -55,6 +55,8 @@ class Human extends DbModel
     {
         return [
             'name' => Language::trans('name'),
+            'company_id' => Language::trans('company'),
+            'country_id' => Language::trans('country'),
         ];
     }
 

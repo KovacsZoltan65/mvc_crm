@@ -21,11 +21,11 @@ class Form
 {
     /**
      * Űrlap kezdete
-     * @param type $action
-     * @param type $method
-     * @return string
+     * @param string $action
+     * @param string $method
+     * @return object
      */
-    public static function begin($action, $method)
+    public static function begin(string $action, string $method): object
     {
         echo sprintf('<form action="%s" method="%s">', $action, $method);
         return new Form();
@@ -33,11 +33,11 @@ class Form
     
     /**
      * Űrlap vége
-     * @return string
      */
     public static function end()
     {
-        echo '</form>';
+        //echo '</form>';
+        return '</form>';
     }
     
     public function field(Model $model, $attribute)

@@ -73,7 +73,7 @@ class Select
             }
             elseif(is_bool($this->attributes['blank_row']) && $this->attributes['blank_row'] )
             {
-                $options .= '<option value="0">VÁLASSZ</option>';
+                $options .= '<option value="">VÁLASSZ</option>';
             }
         }
         
@@ -99,7 +99,7 @@ class Select
         $arr = $this->model->getClasses($this->attributes['id']);
         
         $select = '<div class="form-group">
-            <label for="' . $this->attributes['id'] . '">' . $this->model->getLabel($this->attributes['title_field']) . '</label>
+            <label for="' . $this->attributes['id'] . '">' . $this->model->getLabel($this->attributes['title']) . '</label>
                 <select class="' . $this->attributes['class'] . $arr['class_1'] . '" 
                         id="' . $this->attributes['id'] . '" 
                         name="' . $name . '" >

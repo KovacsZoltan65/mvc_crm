@@ -11,6 +11,7 @@
 
 use app\core\form\Anchor;
 use app\core\Language;
+use app\models\Company;
 
 $this->title = Language::trans('companies');
 

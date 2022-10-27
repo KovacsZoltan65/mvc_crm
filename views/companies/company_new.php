@@ -1,19 +1,22 @@
 <?php
 
-use app\controllers\CountryController;
-use app\controllers\CurrencyController;
+/**
+* company_new.php
+* User: kzoltan
+* Date: 2022-07-05
+* Time: 08:30
+*/
+
 use app\core\form\Anchor;
 use app\core\form\Button;
 use app\core\form\Form;
 use app\core\form\Select;
 use app\core\Language;
+use app\models\Company;
 
-/**
- * company_new.php
- * User: kzoltan
- * Date: 2022-07-05
- * Time: 08:30
- */
+/** @var Company $company */
+/** @var array<Country> $countries */
+/** @var array<Currency> $currencies */
 
 $this->title = Language::trans('company_new');
 
@@ -23,22 +26,23 @@ $this->title = Language::trans('company_new');
 
 <?php $form = Form::begin('', 'post');
 
-echo $form->field($model, "id")->hiddenField();
+echo $form->field($company, "id")->hiddenField();
 
 // ----------------------------
 // Cég neve
 // ----------------------------
-echo $form->field($model, 'name');
+echo $form->field($company, 'name');
 
 // ----------------------------
 // Ország
 // ----------------------------
 
 //$countries = (new CountryController)->getCountriesToSelect();
-echo (new Select($model, [
+echo (new Select($company, [
     'id' => 'country_id',
     'name' => 'country_id',
     'class' => 'form-control',
+    'title' => 'country',
     'value_field' => 'id',
     'selected_field' => 'id',
     'model_selected_field' => 'id',
@@ -51,10 +55,11 @@ echo (new Select($model, [
 // Pénznem
 // ----------------------------
 //$currencies = (new CurrencyController)->getCurrenciesToSelect();
-echo (new Select($model, [
+echo (new Select($company, [
     'id' => 'currency',
     'name' => 'currency',
     'class' => 'form-control',
+    'title' => 'currency',
     'value_field' => 'currency',
     'selected_field' => 'currency',
     'model_selected_field' => 'currency',
@@ -79,7 +84,7 @@ echo (new Anchor([
 // ----------------------------
 echo (new Button([
     'id' => 'btn',
-    'class' => 'btn btn-primary',
+    'class' => 'btn btn-primary float-right',
     'style' => 'margin-right: 5px;margin-left: 5px',
     'title' => Language::trans('save')
 ]))->submit();

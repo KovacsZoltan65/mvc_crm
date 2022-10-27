@@ -5,6 +5,7 @@ use app\core\form\Button;
 use app\core\form\Form;
 use app\core\form\Select;
 use app\core\Language;
+use app\models\Company;
 
 /**
  * company_edit.php
@@ -12,6 +13,9 @@ use app\core\Language;
  * Date: 2022-07-04
  * Time: 07:30
  */
+/** @var Company $company */
+/** @var object $countries */
+/** @var object $currencies */
 
 $this->title = Language::trans('company_edit');
 
@@ -29,21 +33,22 @@ $form = Form::begin('', 'post');
 // ----------------------------
 // Rekord azonosító
 // ----------------------------
-echo $form->field($model, 'id')->hiddenField();
+echo $form->field($company, 'id')->hiddenField();
 
 // ----------------------------
 // Cég neve
 // ----------------------------
-echo $form->field($model, 'name');
+echo $form->field($company, 'name');
 
 // ----------------------------
 // Ország
 // ----------------------------
 //$countries = (new CountryController)->getCountriesToSelect();
-echo (new Select($model, [
+echo (new Select($company, [
     'id' => 'country_id',
     'name' => 'country_id',
     'class' => 'form-control',
+    'title' => 'country',
     'value_field' => 'id',
     'selected_field' => 'id',
     'model_selected_field' => 'country_id',
@@ -55,11 +60,11 @@ echo (new Select($model, [
 // ----------------------------
 // Pénznem
 // ----------------------------
-//$currencies = (new CurrencyController)->getCurrenciesToSelect();
-echo (new Select($model, [
+echo (new Select($company, [
     'id' => 'currency',
     'name' => 'currency',
     'class' => 'form-control',
+    'title' => 'currency',
     'value_field' => 'currency',
     'selected_field' => 'currency',
     'model_selected_field' => 'currency',

@@ -40,7 +40,7 @@ class LoginForm extends Model
     public function login()
     {
         // Felhasználó lekérése email alapján
-        $user = User::find(['email' => $this->email]);
+        $user = User::findOne(['email' => $this->email]);
         
         // Ha megtalálja a keresett felhasználót, akkor...
         if( !$user )

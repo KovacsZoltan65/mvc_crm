@@ -75,39 +75,48 @@ abstract class DbModel extends Model
 
     /**
      * Egy rekord lekérése az adatbázisból az átadott paraméterek alapján.
+     * 
      * @param array $where Lekéréshez szükséges paraméterek
-     * @return type
+     * @return object
      */
-    public static function findOne(array $where)   // ['email' => 'person@company.com', 'first_name' => 'FirstName']
-    {
-        $tableName = static::tableName();
-        $attributes = array_keys($where);
-        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql;");
-
-        foreach ($where as $key => $item) {
-            $statement->bindValue(":$key", $item);
-        }
-
-        $statement->execute();
-        return $statement->fetchObject(static::class);
-    }
-
-    /**
-     * Keresés az adattáblában a megadott paraméterek alapján
-     * @version 1.0
-     * @param array $where
-     * @return array
-     */
-    public static function find(array $where)
+    public static function findOne(array $where)
     {
         // Táblanév lekérése
         $tableName = static::tableName();
         // Feltételek
         $attributes = array_keys($where);
+        $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
+        // Előkészítés
+        $statement = self::prepare("SELECT * FROM $tableName WHERE $sql;");
+
+        foreach ($where as $key => $item)
+        {
+            $statement->bindValue(":$key", $item);
+        }
+        // Futtatás
+        $statement->execute();
+        // Eredmény az aktuális osztállyá alakítva
+        $retval = $statement->fetchObject(static::class);
+        
+        return $retval;
+    }
+
+    /**
+     * Keresés az adattáblában a megadott paraméterek alapján.
+     * Tö
+     * @version 1.0
+     * @param array $where
+     * @return array<object>
+     */
+    public static function find(array $where)
+    {
+        // Táblanév lekérése
+        $tableName = static::tableName();
+        
+        // Feltételek
+        $attributes = array_keys($where);
         
         $sql = implode("AND ", array_map(fn($attr) => "$attr = :$attr", $attributes));
-        
         $query = "SELECT * FROM $tableName WHERE $sql;";
         
         // Előkészítés
@@ -120,8 +129,7 @@ abstract class DbModel extends Model
         // Futtatás
         $statement->execute();
         
-        //return $statement->fetchAll(PDO::FETCH_CLASS, static::class);
-        return $statement->fetchObject(static::class);
+        return $statement->fetchAll(PDO::FETCH_CLASS, static::class);
     }
     /**
      * Adattábla összes rekordjának lekérése

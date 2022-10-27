@@ -31,6 +31,9 @@
     
     "humans":"Dolgozók",
     "human":"Dolgozó",
+    "human_new": "Új dolgozó",
+    "human_edit": "Dolgozó szerkesztése",
+    "human_delete": "Dolgozó törlése",
     
     "add new": "Új elem",
     "edit": "Szerkesztés",
@@ -42,5 +45,7 @@
     
     "inactive":"Inaktív",
     "active":"Aktív",
-    "deleted":"Törölt"
+    "deleted":"Törölt",
+    
+    "delete_success": "törölése sikeresen megtörtént"
 }
