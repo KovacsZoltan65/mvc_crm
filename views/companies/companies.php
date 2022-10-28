@@ -13,7 +13,7 @@ use app\core\form\Anchor;
 use app\core\Language;
 use app\models\Company;
 
-$this->title = Language::trans('companies');
+$this->title = $title;
 
 $create_id = 'create';
 $edit_id = 'edit';
@@ -33,23 +33,28 @@ echo (new Button([
     'data-whatever' => Language::trans('add new'),
 ]))->modal();
 */
+?>
+<h1><?php echo $this->title; ?></h1>
+
+<div class="card">
+    
+    <div class="card-header">
+<?php 
+echo $this->title;
 
 // =================
 // "NEW" button
 // =================
 echo(new Anchor([
     'id' => "btn_$create_id",
-    'class' => 'btn btn-primary',
+    'class' => 'btn btn-primary float-right',
     'type' => 'button',
     'href' => "company_new",
     'icon' => 'bi bi-plus-circle'
 ]))->button();
-
 ?>
-
-<div class="card">
-    
-    <div class="card-header"><?php echo $this->title; ?></div>
+        
+    </div>
     
     <div class="card-body">
         

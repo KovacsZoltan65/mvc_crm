@@ -37,6 +37,7 @@ class HumanController extends Controller
         $this->setLayout('main');
         return $this->render('humans/humans', [
             'humans' => $humans,
+            'title' => Language::trans('humans'),
         ]);
     }
     

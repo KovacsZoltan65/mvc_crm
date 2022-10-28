@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Language;
 use app\core\middlewares\AuthMiddleware;
 use app\core\Request;
 use app\core\Response;
@@ -41,7 +42,7 @@ class CompanyController extends Controller
         $this->setLayout('main');
         return $this->render('companies/companies', [
             'companies' => $companies,
-            '' => ''
+            'title' => Language::trans('companies')
         ]);
     }
     
@@ -87,6 +88,7 @@ class CompanyController extends Controller
         
         $this->setLayout('main');
         return $this->render('companies/company_new', [
+            'title' => Language::trans('company_new'),
             'company' => $company,
             'currencies' => $currencies,
             'countries' => $countries,
@@ -119,6 +121,7 @@ class CompanyController extends Controller
         
         $this->setLayout('main');
         return $this->render('companies/company_edit', [
+            'title' => Language::trans('company_edit'),
             'company' => $company,
             'currencies' => $currencies,
             'countries' => $countries,

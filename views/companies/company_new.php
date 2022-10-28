@@ -18,14 +18,23 @@ use app\models\Company;
 /** @var array<Country> $countries */
 /** @var array<Currency> $currencies */
 
-$this->title = Language::trans('company_new');
+$this->title = $title;
 
 ?>
 
 <h1><?php echo $this->title; ?></h1>
 
-<?php $form = Form::begin('', 'post');
+<div class="card">
+    
+    <div class="card-header"><?php echo $this->title; ?></div>
+    
+<?php $form = Form::begin('', 'post'); ?>
+    <div class="card-body">
+<?php
 
+// ----------------------------
+// Cég azonosító
+// ----------------------------
 echo $form->field($company, "id")->hiddenField();
 
 // ----------------------------
@@ -33,11 +42,14 @@ echo $form->field($company, "id")->hiddenField();
 // ----------------------------
 echo $form->field($company, 'name');
 
+?>
+        <div class="row">
+            
+            <div class="col border-right">
+<?php
 // ----------------------------
 // Ország
 // ----------------------------
-
-//$countries = (new CountryController)->getCountriesToSelect();
 echo (new Select($company, [
     'id' => 'country_id',
     'name' => 'country_id',
@@ -50,7 +62,11 @@ echo (new Select($company, [
     'blank_row' => true,
     'data' => $countries,
 ] ));
-
+?>
+            </div>
+            
+            <div class="col">
+<?php
 // ----------------------------
 // Pénznem
 // ----------------------------
@@ -67,8 +83,14 @@ echo (new Select($company, [
     'blank_row' => true,
     'data' => $currencies,
 ] ));
-
-
+?>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div class="card-footer">
+<?php
 // ----------------------------
 // "Mégsem" gomb
 // ----------------------------
@@ -88,5 +110,7 @@ echo (new Button([
     'style' => 'margin-right: 5px;margin-left: 5px',
     'title' => Language::trans('save')
 ]))->submit();
-
-echo Form::end(); ?>
+?>
+    </div>
+<?php echo Form::end(); ?>    
+</div>

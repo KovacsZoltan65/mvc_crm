@@ -17,19 +17,23 @@ use app\models\Company;
 /** @var object $countries */
 /** @var object $currencies */
 
-$this->title = Language::trans('company_edit');
+$this->title = $title;
 
 ?>
 
 <h1><?php echo $this->title; ?></h1>
 
+<div class="card">
+    
+    <div class="card-header"><?php echo $this->title; ?></div>
 <?php
-
 // ----------------------------
 // form kezdete
 // ----------------------------
 $form = Form::begin('', 'post');
-
+?>    
+    <div class="card-body">
+<?php
 // ----------------------------
 // Rekord azonosító
 // ----------------------------
@@ -40,6 +44,11 @@ echo $form->field($company, 'id')->hiddenField();
 // ----------------------------
 echo $form->field($company, 'name');
 
+?>
+        <div class="row">
+            
+            <div class="col">
+<?php
 // ----------------------------
 // Ország
 // ----------------------------
@@ -56,7 +65,11 @@ echo (new Select($company, [
     'blank_row' => true,
     'data' => $countries,
 ] ));
-
+?>                
+            </div>
+            
+            <div class="col">
+<?php
 // ----------------------------
 // Pénznem
 // ----------------------------
@@ -72,7 +85,13 @@ echo (new Select($company, [
     'blank_row' => true,
     'data' => $currencies,
 ] ));
-
+?>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card-footer">
+<?php
 // ----------------------------
 // "Mégsem" gomb
 // ----------------------------
@@ -88,14 +107,16 @@ echo (new Anchor([
 // ----------------------------
 echo (new Button([
     'id' => 'btn',
-    'class' => 'btn btn-primary',
+    'class' => 'btn btn-primary float-right',
     'style' => 'margin-right: 5px;margin-left: 5px',
     'title' => Language::trans('save')
 ]))->submit();
-
+?>
+    </div>
+<?php
 // ----------------------------
 // Form vége
 // ----------------------------
 echo Form::end();
-
 ?>
+</div>
