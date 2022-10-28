@@ -103,7 +103,7 @@ echo (new Anchor([
 echo (new Button([
     'id' => 'btn',
     'class' => 'btn btn-primary float-right',
-    'style' => 'margin-right: 5px;margin-left: 5px',
+    'style' => 'margin-right: 5px;margin-left: 5px;',
     'title' => Language::trans('save')
 ]))->submit();
 ?>

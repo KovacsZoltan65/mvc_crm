@@ -41,6 +41,7 @@ class CompanyController extends Controller
         $this->setLayout('main');
         return $this->render('companies/companies', [
             'companies' => $companies,
+            '' => ''
         ]);
     }
     

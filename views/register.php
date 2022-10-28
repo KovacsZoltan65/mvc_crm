@@ -1,5 +1,6 @@
 <?php
 
+use app\core\form\Anchor;
 use app\core\form\Button;
 use app\core\form\Form;
 use app\core\Language;
@@ -17,9 +18,76 @@ $this->title = Language::trans('register');
 
 ?>
 
-<h1><?php echo Language::trans('create account'); ?></h1>
-
+<h1><?php echo $this->title; ?></h1>
 <?php $form = Form::begin('', 'post'); ?>
+<div class="card">
+    
+    <div class="card-header"><?php echo $this->title; ?></div>
+    <div class="card-body">
+        
+        <div class="row">
+            <div class="col">
+                <?php 
+                // ----------------------------
+                // Vezetéknév
+                // ----------------------------
+                echo $form->field($model, 'first_name'); 
+                ?>
+            </div>
+            <div class="col">
+                <?php 
+                // ----------------------------
+                // Keresztnév
+                // ----------------------------
+                echo $form->field($model, 'last_name'); 
+                ?>
+            </div>
+        </div>
+        
+<?php
+// ----------------------------
+// Email
+// ----------------------------
+echo $form->field($model, 'email'); 
+
+// ----------------------------
+// Jelszó
+// ----------------------------
+echo $form->field($model, 'password'); 
+
+// ----------------------------
+// Jelszó ismét
+// ----------------------------
+echo $form->field($model, 'confirm_password');
+?>
+        
+    </div>
+    <div class="card-footer">
+<?php
+// ----------------------------
+// "Regisztráció" gomb
+// ----------------------------
+echo (new Anchor([
+       'id' => 'btn_cancel',
+    'class' => 'btn btn-info',
+     'href' => '/login',
+    'title' => $login_title
+]));
+// ----------------------------
+// "Mentés" gomb
+// ----------------------------
+echo (new Button([
+       'id' => 'btn',
+    'class' => 'btn btn-primary float-right',
+    'style' => 'margin-right: 5px;margin-left: 5px;',
+    'title' => $register_title
+]))->submit();
+?>
+    </div>
+<?php echo Form::end(); ?>
+</div>
+
+<?php /*$form = Form::begin('', 'post'); ?>
 <div class="row">
     <div class="col">
         <?php 
@@ -62,7 +130,7 @@ echo (new Button([
 ]))->submit();
 
 echo Form::end(); 
-?>
+*/?>
 <?php /* ?>
 <form action="" method="post">
     

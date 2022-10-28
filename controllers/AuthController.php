@@ -11,6 +11,7 @@ namespace app\controllers;
 
 use app\core\Application;
 use app\core\Controller;
+use app\core\Language;
 use app\core\middlewares\AuthMiddleware;
 use app\core\Request;
 use app\core\Response;
@@ -59,8 +60,12 @@ class AuthController extends Controller
         }
         
         $this->setLayout('auth');
+        $login_title = Language::trans('login');
         return $this->render('login', [
-            'model' => $loginModel,
+                     'title' => $login_title,
+               'login_title' => $login_title,
+            'register_title' => Language::trans('register'),
+                     'model' => $loginModel,
         ]);
     }
    
@@ -90,9 +95,13 @@ class AuthController extends Controller
             ]);
         }
         
+        $register_title = Language::trans('register');
         $this->setLayout('auth');
         return $this->render('register', [
             'model' => $user,
+            'title' => $register_title,
+            'register_title' => $register_title,
+            'login_title' => Language::trans('login'),
         ]);
     }
     

@@ -1,44 +1,64 @@
 <?php
 
-use app\core\form\Button;
-use app\core\form\Form;
-use app\core\Language;
-
 /**
  * login.php
  * User: kzoltan
  * Date: 2022-05-16
  * Time: 7:18
  */
-/** @var $model \app\models\User */
 
-/** @var $this \app\core\View */
-$this->title = Language::trans('login');
+use app\core\form\Anchor;
+use app\core\form\Button;
+use app\core\form\Form;
+use app\core\Language;
+
+/** @var \app\models\User $model */
+/** @var \app\core\View $this */
+
+$this->title = $title;
 
 ?>
 
 <h1><?php echo $this->title; ?></h1>
 
+<div class="card">
+    
+    <div class="card-header"><?php echo $this->title; ?></div>
+    
 <?php $form = Form::begin('', 'post'); ?>
-
+    
+    <div class="card-body">
 <?php 
-// ----------------------------
-// Email
-// ----------------------------
-echo $form->field($model, 'email'); 
+// --------------
+// Dolgozó neve
+// --------------
+echo $form->field($model, 'email');
+echo $form->field($model, 'password')->passwordField();
 ?>
 
-<?php 
-// ----------------------------
-// Jelszó
-// ----------------------------
-echo $form->field($model, 'password')->passwordField();  
-?>
-<!--
-<button type="submit" class="btn btn-primary">Submit</button>
--->
+    </div>
+    
+    <div class="card-footer">
 <?php
-echo (new Button(['id' => 'btn','class' => 'btn btn-primary','title' => Language::trans('login')]))->submit();
+// ----------------------------
+// "Regisztráció" gomb
+// ----------------------------
+echo (new Anchor([
+       'id' => 'btn_cancel',
+    'class' => 'btn btn-info',
+     'href' => '/register',
+    'title' => $register_title
+]));
+// ----------------------------
+// "Mentés" gomb
+// ----------------------------
+echo (new Button([
+       'id' => 'btn',
+    'class' => 'btn btn-primary float-right',
+    'style' => 'margin-right: 5px;margin-left: 5px;',
+    'title' => $login_title
+]))->submit();
 ?>
-
-<?php echo Form::end(); ?>
+    </div>
+<?php Form::end(); ?>
+</div>
